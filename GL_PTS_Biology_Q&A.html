@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GL PTS Biology — All Questions & Answers</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal:       #0D7A5F;
+    --teal-dark:  #085041;
+    --teal-light: #E0F4EE;
+    --ink:        #1A1A2E;
+    --ink-mid:    #4A4A6A;
+    --ink-light:  #9090AA;
+    --surface:    #FAFAF8;
+    --card:       #FFFFFF;
+    --border:     #E8E8F0;
+    --green:      #16A34A;
+    --green-bg:   #F0FDF4;
+    --found-bg:   #FFFBEB;
+    --found-col:  #92400E;
+    --std-bg:     #EFF6FF;
+    --std-col:    #1E40AF;
+    --str-bg:     #F0FDF4;
+    --str-col:    #166534;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--surface);
+    color: var(--ink);
+    padding: 0 0 60px;
+  }
+
+  /* ── Header ── */
+  .topbar {
+    background: var(--teal-dark);
+    color: #fff;
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .topbar-left h1 { font-size: 20px; font-weight: 600; }
+  .topbar-left p  { font-size: 13px; opacity: .7; margin-top: 3px; }
+  .topbar-right   { font-size: 12px; opacity: .6; text-align: right; line-height: 1.6; }
+
+  /* ── Controls ── */
+  .controls {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 32px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  }
+  .ctrl-label { font-size: 12px; color: var(--ink-light); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; margin-right: 4px; }
+  .pill {
+    padding: 6px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    font-size: 12px; font-weight: 500;
+    cursor: pointer;
+    background: var(--card);
+    color: var(--ink-mid);
+    transition: all .15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .pill:hover { border-color: var(--teal); color: var(--teal); }
+  .pill.active { background: var(--teal); color: #fff; border-color: var(--teal); }
+  .toggle-btn {
+    margin-left: auto;
+    padding: 7px 16px;
+    background: var(--teal-light);
+    color: var(--teal-dark);
+    border: 1.5px solid var(--teal);
+    border-radius: 8px;
+    font-size: 12px; font-weight: 600;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .toggle-btn:hover { background: var(--teal); color: #fff; }
+
+  /* ── Layout ── */
+  .shell { max-width: 860px; margin: 0 auto; padding: 28px 16px; }
+
+  /* ── Topic section ── */
+  .topic-section { margin-bottom: 36px; }
+  .topic-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--teal-light);
+  }
+  .topic-icon {
+    width: 36px; height: 36px;
+    background: var(--teal);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .topic-title { font-size: 17px; font-weight: 600; color: var(--teal-dark); }
+  .topic-count { font-size: 12px; color: var(--ink-light); margin-top: 2px; }
+
+  /* ── Question card ── */
+  .q-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 10px;
+    transition: box-shadow .15s;
+  }
+  .q-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,.07); }
+  .q-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .q-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-light);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 8px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .q-body { flex: 1; }
+  .diff-tag {
+    display: inline-block;
+    font-size: 10px; font-weight: 600;
+    padding: 2px 8px; border-radius: 20px;
+    text-transform: uppercase; letter-spacing: .05em;
+    margin-bottom: 6px;
+  }
+  .d-f { background: var(--found-bg); color: var(--found-col); }
+  .d-s { background: var(--std-bg);   color: var(--std-col); }
+  .d-x { background: var(--str-bg);   color: var(--str-col); }
+  .q-text {
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.65;
+    font-weight: 400;
+    margin-bottom: 12px;
+  }
+
+  /* ── Options grid ── */
+  .opts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+  }
+  .opt-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--ink-mid);
+    background: var(--surface);
+    line-height: 1.45;
+  }
+  .opt-item.correct-opt {
+    border-color: var(--green);
+    background: var(--green-bg);
+    color: #166534;
+    font-weight: 500;
+  }
+  .opt-letter {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    min-width: 18px; height: 18px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--border);
+    color: var(--ink-mid);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .opt-item.correct-opt .opt-letter {
+    background: var(--green);
+    color: #fff;
+  }
+
+  /* ── Answer/explanation ── */
+  .answer-box {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: var(--green-bg);
+    border-left: 3px solid var(--green);
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+    color: #166534;
+    line-height: 1.6;
+  }
+  .answer-box .ans-label {
+    font-weight: 600;
+    margin-bottom: 3px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    opacity: .8;
+  }
+  .revision-box {
+    margin-top: 6px;
+    padding: 8px 12px;
+    background: #EFF6FF;
+    border-left: 3px solid #3B82F6;
+    border-radius: 0 8px 8px 0;
+    font-size: 12px;
+    color: #1E40AF;
+  }
+
+  /* ── Hidden state ── */
+  .answer-box.hidden,
+  .revision-box.hidden { display: none; }
+  .opt-item.correct-opt.hidden-ans {
+    border-color: var(--border);
+    background: var(--surface);
+    color: var(--ink-mid);
+    font-weight: 400;
+  }
+  .opt-item.correct-opt.hidden-ans .opt-letter {
+    background: var(--border);
+    color: var(--ink-mid);
+  }
+
+  /* ── Summary ── */
+  .summary {
+    background: var(--teal-dark);
+    color: #fff;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .sum-stat { text-align: center; }
+  .sum-val  { font-size: 28px; font-weight: 600; font-family: 'DM Mono', monospace; }
+  .sum-lbl  { font-size: 11px; opacity: .65; text-transform: uppercase; letter-spacing: .04em; margin-top: 2px; }
+  .sum-breakdown { flex: 1; }
+  .sum-row  { display: flex; align-items: center; gap: 8px; padding: 4px 0; font-size: 13px; opacity: .85; }
+  .sum-dot  { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  @media (max-width: 560px) {
+    .opts-grid { grid-template-columns: 1fr; }
+    .topbar { padding: 16px 16px; }
+    .controls { padding: 12px 16px; }
+    .shell { padding: 20px 10px; }
+  }
+  @media print {
+    .controls { display: none; }
+    .q-card { break-inside: avoid; }
+    .topic-section { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <h1>🔬 GL PTS Biology — Question Bank</h1>
+    <p>All questions with answers and revision notes · KS3 Biology · Year 7</p>
+  </div>
+  <div class="topbar-right">
+    41 questions · 9 topics<br>
+    Foundation / Standard / Stretch
+  </div>
+</div>
+
+<div class="controls">
+  <span class="ctrl-label">Topic:</span>
+  <button class="pill active" onclick="filterTopic('all',this)">All</button>
+  <button class="pill" onclick="filterTopic('cells',this)">Cells</button>
+  <button class="pill" onclick="filterTopic('skeleton',this)">Skeleton</button>
+  <button class="pill" onclick="filterTopic('nutrition',this)">Nutrition</button>
+  <button class="pill" onclick="filterTopic('gas',this)">Gas exchange</button>
+  <button class="pill" onclick="filterTopic('repro',this)">Reproduction</button>
+  <button class="pill" onclick="filterTopic('photo',this)">Photosynthesis</button>
+  <button class="pill" onclick="filterTopic('resp',this)">Respiration</button>
+  <button class="pill" onclick="filterTopic('eco',this)">Ecosystems</button>
+  <button class="pill" onclick="filterTopic('gen',this)">Genetics</button>
+  <button class="toggle-btn" onclick="toggleAnswers(this)">Hide answers</button>
+</div>
+
+<div class="shell">
+
+  <div class="summary">
+    <div class="sum-stat"><div class="sum-val">41</div><div class="sum-lbl">Questions</div></div>
+    <div class="sum-stat"><div class="sum-val">9</div><div class="sum-lbl">Topics</div></div>
+    <div class="sum-stat"><div class="sum-val">3</div><div class="sum-lbl">Difficulty levels</div></div>
+    <div class="sum-breakdown">
+      <div class="sum-row"><div class="sum-dot" style="background:#D97706"></div>Foundation — accessible entry-level questions</div>
+      <div class="sum-row"><div class="sum-dot" style="background:#3B82F6"></div>Standard — expected GL PTS level</div>
+      <div class="sum-row"><div class="sum-dot" style="background:#16A34A"></div>Stretch — higher-order and application</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- CELLS & ORGANISATION                                        -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="topic-section" data-topic="cells">
+    <div class="topic-header">
+      <div class="topic-icon">🔬</div>
+      <div><div class="topic-title">Cells & organisation</div><div class="topic-count">6 questions · BIO-Y7-CELLS</div></div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-top">
+        <div class="q-num">BIO-001</div>
+        <div class="q-body">
+          <span class="diff-tag d-s">Standard</span>
+          <div class="q-text">Which structure controls what enters and leaves the cell?</div>
+          <div class="opts-grid">
+            <div class="opt-item"><span class="opt-letter">A</span>Cell wall</div>
+            <div class="opt-item correct-opt"><span class="opt-letter">B</span>Cell membrane</div>
+            <div class="opt-item"><span class="opt-letter">C</span>Nucleus</div>
+            <div class="opt-item"><span class="opt-letter">D</span>Vacuole</div>
+          </div>
+          <div class="answer-box"><div class="ans-label">✓ Answer: B — Cell membrane</div>The cell membrane is selectively permeable — it controls which substances move in and out of the cell.</div>
+          <div class="revision-box">📖 Revise: cell structure and the function of each organelle</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-top">
+        <div class="q-num">BIO-002</div>
+        <div class="q-body">
+          <span class="diff-tag d-f">Foundation</span>
+          <div class="q-text">Which of the following is found in plant cells but NOT in animal cells?</div>
+          <div class="opts-grid">
+            <div class="opt-item"><span class="opt-letter">A</span>Nucleus</div>
+            <div class="opt-item"><span class="opt-letter">B</span>Cell membrane</div>
+            <div class="opt-item correct-opt"><span class="opt-letter">C</span>Chloroplast</div>
+            <div class="opt-item"><span class="opt-letter">D</span>Mitochondria</div>
+          </div>
+          <div class="answer-box"><div class="ans-label">✓ Answer: C — Chloroplast</div>Chloroplasts are only found in plant cells. They contain chlorophyll and are the site of photosynthesis.</div>
+          <div class="revision-box">📖 Revise: differences between plant and animal cells</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-top">
+        <div class="q-num">BIO-003</div>
+        <div class="q-body">
+          <span class="diff-tag d-f">Foundation</span>
+          <div class="q-text">A student views cells with a cell wall, large vacuole and chloroplasts. What type of cell is this?</div>
+          <div class="opts-grid">
+            <div class="opt-item"><span class="opt-letter">A</span>Animal cell</div>
+            <div class="opt-item"><span class="opt-letter">B</span>Bacterial cell</div>
+            <div class="opt-item correct-opt"><span class="opt-letter">C</span>Plant cell</div>
+            <div class="opt-item"><span class="opt-letter">D</span>Fungal cell</div>
+          </div>
+          <div class="answer-box"><div class="ans-label">✓ Answer: C — Plant cell</div>Plant cells have all three: cellulose cell walls, a large central vacuole, and chloroplasts.</div>
+          <div class="revision-box">📖 Revise: identifying cell types from their features</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-top">
+        <div class="q-num">BIO-004</div>
+        <div class="q-body">
+          <span class="diff-tag d-f">Foundation</span>
+          <div class="q-text">What is the correct order of organisation from smallest to largest?</div>
+          <div class="opts-grid">
+            <div class="opt-item"><span class="opt-letter">A</span>Organ → cell → tissue → organism</div>
+            <div class="opt-item correct-opt"><span class="opt-letter">B</span>Cell → tissue → organ → organism</div>
+            <div class="opt-item"><span class="opt-letter">C</span>Tissue → cell → organ → organism</div>
+            <div class="opt-item"><span class="opt-letter">D</span>Cell → organ → tissue → organism</div>
+          </div>
+          <div class="answer-box"><div class="ans-label">✓ Answer: B</div>The hierarchy is: cell → tissue → organ → organ system → organism.</div>
+          <div class="revision-box">📖 Revise: levels of organisation in multicellular organisms</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-top">
+        <div class="q-num">BIO-005</div>
+        <div class="q-body">
+          <span class="diff-tag d-s">Standard</span>
+          <div class="q-text">Diffusion is best described as:</div>
+          <div class="opts-grid">
+            <div class="opt-item"><span class="opt-letter">A</span>Active movement against a concentration gradient</div>
+            <div class="opt-item"><span class="opt-letter">B</span>Movement of particles from low to high concentration</div>
+            <div class="opt-item correct-opt"><span class="opt-letter">C</span>Movement of particles from high to low concentration</div>
+            <div class="opt-item"><span class="opt-letter">D</span>Movement that requires energy from the cell</div>
+          </div>
+          <div class="answer-box"><div class="ans-label">✓ Answer: C</div>Diffusion is passive — no energy required. Particles move down their concentration gradient from high to low.</div>
+          <div class="revision-box">📖 Revise: diffusion and concentration gradients</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-top">
+        <div class="q-num">BIO-006</div>
+        <div class="q-body">
+          <span class="diff-tag d-x">Stretch</span>
+          <div class="q-text">Which organelle is responsible for producing most of a cell's energy?</div>
+          <div class="opts-grid">
+            <div class="opt-item"><span class="opt-letter">A</span>Nucleus</div>
+            <div class="opt-item"><span class="opt-letter">B</span>Vacuole</div>
+            <div class="opt-item"><span class="opt-letter">C</span>Ribosome</div>
+            <div class="opt-item correct-opt"><span class="opt-letter">D</span>Mitochondria</div>
+          </div>
+          <div class="answer-box"><div class="ans-label">✓ Answer: D — Mitochondria</div>Mitochondria are the site of aerobic respiration where glucose is broken down to release ATP (energy).</div>
+          <div class="revision-box">📖 Revise: mitochondria and aerobic respiration</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKELETON & MUSCLES -->
+  <div class="topic-section" data-topic="skeleton">
+    <div class="topic-header">
+      <div class="topic-icon">🦴</div>
+      <div><div class="topic-title">Skeleton & muscles</div><div class="topic-count">4 questions · BIO-Y7-SKEL</div></div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-top"><div class="q-num">BIO-007</div>
+      <div class="q-body">
+        <span class="diff-tag d-f">Foundation</span>
+        <div class="q-text">Which of the following is NOT a function of the human skeleton?</div>
+        <div class="opts-grid">
+          <div class="opt-item"><span class="opt-letter">A</span>Support</div>
+          <div class="opt-item"><span class="opt-letter">B</span>Protection</div>
+          <div class="opt-item correct-opt"><span class="opt-letter">C</span>Gas exchange</div>
+          <div class="opt-item"><span class="opt-letter">D</span>Movement</div>
+        </div>
+        <div class="answer-box"><div class="ans-label">✓ Answer: C — Gas exchange</div>Gas exchange is the function of the lungs, not the skeleton. The skeleton provides support, protection, movement, and blood cell production.</div>
+        <div class="revision-box">📖 Revise: the four functions of the skeleton</div>
+      </div></div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-top"><div class="q-num">BIO-008</div>
+      <div class="q-body">
+        <span class="diff-tag d-s">Standard</span>
+        <div class="q-text">When the bicep contracts to bend the arm, what does the tricep do?</div>
+        <div class="opts-grid">
+          <div class="opt-item"><span class="opt-letter">A</span>Contracts</div>
+          <div class="opt-item correct-opt"><span class="opt-letter">B</span>Relaxes</div>
+          <div class="opt-item"><span class="opt-letter">C</span>Stays the same</div>
+          <div class="opt-item"><span class="opt-letter">D</span>Shortens</div>
+        </div>
+        <div class="answer-box"><div class="ans-label">✓ Answer: B — Relaxes</div>Antagonistic muscles work in opposition. When the bicep contracts the tricep relaxes, and vice versa.</div>
+        <div class="revision-box">📖 Revise: antagonistic muscle pairs — bicep and tricep</div>
+      </div></div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-top"><div class="q-num">BIO-009</div>
+      <div class="q-body">
+        <span class="diff-tag d-s">Standard</span>
+        <div class="q-text">Which type of tissue connects muscle to bone?</div>
+        <div class="opts-grid">
+          <div class="opt-item"><span class="opt-letter">A</span>Ligament</div>
+          <div class="opt-item"><span class="opt-letter">B</span>Cartilage</div>
+          <div class="opt-item correct-opt"><span class="opt-letter">C</span>Tendon</div>
+          <div class="opt-item"><span class="opt-letter">D</span>Bone marrow</div>
+        </div>
+        <div class="answer-box"><div class="ans-label">✓ Answer: C — Tendon</div>Tendons connect muscle to bone. Ligaments connect bone to bone. Remember: Tendons to bone, Ligaments link bones.</div>
+        <div class="revision-box">📖 Revise: tendons vs ligaments — know the difference</div>
+      </div></div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-top"><div class="q-num">BIO-010</div>
+      <div class="q-body">
+        <span class="diff-tag d-x">Stretch</span>
+        <div class="q-text">Red blood cells are produced in the:</div>
+        <div class="opts-grid">
+          <div class="opt-item"><span class="opt-letter">A</span>Liver</div>
+          <div class="opt-item correct-opt"><span class="opt-letter">B</span>Bone marrow</div>
+          <div class="opt-item"><span class="opt-letter">C</span>Spleen</div>
+          <div class="opt-item"><span class="opt-letter">D</span>Heart</div>
+        </div>
+        <div class="answer-box"><div class="ans-label">✓ Answer: B — Bone marrow</div>Red blood cells are produced in the red bone marrow found in bones such as the pelvis and ribs.</div>
+        <div class="revision-box">📖 Revise: blood cell production as a function of the skeleton</div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- NUTRITION & DIGESTION -->
+  <div class="topic-section" data-topic="nutrition">
+    <div class="topic-header">
+      <div class="topic-icon">🍎</div>
+      <div><div class="topic-title">Nutrition & digestion</div><div class="topic-count">5 questions · BIO-Y7-NUT</div></div>
+    </div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-011</div><div class="q-body">
+      <span class="diff-tag d-f">Foundation</span>
+      <div class="q-text">Which nutrient group provides the body's main source of energy?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Proteins</div>
+        <div class="opt-item"><span class="opt-letter">B</span>Vitamins</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">C</span>Carbohydrates</div>
+        <div class="opt-item"><span class="opt-letter">D</span>Lipids</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: C — Carbohydrates</div>Carbohydrates are the body's primary energy source, broken down into glucose which is used in respiration.</div>
+      <div class="revision-box">📖 Revise: the seven food groups and their functions</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-012</div><div class="q-body">
+      <span class="diff-tag d-s">Standard</span>
+      <div class="q-text">Enzymes in digestion act as:</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Products</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">B</span>Biological catalysts</div>
+        <div class="opt-item"><span class="opt-letter">C</span>Structural proteins</div>
+        <div class="opt-item"><span class="opt-letter">D</span>Energy stores</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: B — Biological catalysts</div>Enzymes are biological catalysts — they speed up chemical reactions without being used up themselves.</div>
+      <div class="revision-box">📖 Revise: enzymes as biological catalysts in digestion</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-013</div><div class="q-body">
+      <span class="diff-tag d-s">Standard</span>
+      <div class="q-text">Which part of the digestive system absorbs most nutrients into the blood?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Stomach</div>
+        <div class="opt-item"><span class="opt-letter">B</span>Large intestine</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">C</span>Small intestine</div>
+        <div class="opt-item"><span class="opt-letter">D</span>Oesophagus</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: C — Small intestine</div>The small intestine is lined with villi which greatly increase the surface area for absorption of nutrients into the bloodstream.</div>
+      <div class="revision-box">📖 Revise: structure and function of the small intestine and villi</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-014</div><div class="q-body">
+      <span class="diff-tag d-s">Standard</span>
+      <div class="q-text">A diet lacking in vitamin C leads to which deficiency disease?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Rickets</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">B</span>Scurvy</div>
+        <div class="opt-item"><span class="opt-letter">C</span>Anaemia</div>
+        <div class="opt-item"><span class="opt-letter">D</span>Kwashiorkor</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: B — Scurvy</div>Scurvy is caused by vitamin C deficiency. Rickets results from vitamin D deficiency. Anaemia results from iron deficiency.</div>
+      <div class="revision-box">📖 Revise: vitamin deficiency diseases and their causes</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-015</div><div class="q-body">
+      <span class="diff-tag d-x">Stretch</span>
+      <div class="q-text">Where does the chemical digestion of starch begin?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Stomach</div>
+        <div class="opt-item"><span class="opt-letter">B</span>Small intestine</div>
+        <div class="opt-item"><span class="opt-letter">C</span>Large intestine</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">D</span>Mouth</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: D — Mouth</div>Salivary amylase in the mouth begins breaking starch down into maltose. This is the start of chemical digestion.</div>
+      <div class="revision-box">📖 Revise: salivary amylase and the start of starch digestion</div>
+    </div></div></div>
+  </div>
+
+  <!-- GAS EXCHANGE -->
+  <div class="topic-section" data-topic="gas">
+    <div class="topic-header">
+      <div class="topic-icon">💨</div>
+      <div><div class="topic-title">Gas exchange</div><div class="topic-count">4 questions · BIO-Y7-GAS</div></div>
+    </div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-016</div><div class="q-body">
+      <span class="diff-tag d-f">Foundation</span>
+      <div class="q-text">What happens to the diaphragm when we breathe in?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>It relaxes and moves up</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">B</span>It contracts and moves down</div>
+        <div class="opt-item"><span class="opt-letter">C</span>It stays in the same position</div>
+        <div class="opt-item"><span class="opt-letter">D</span>It moves sideways</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: B</div>When we inhale the diaphragm contracts and flattens (moves down), increasing chest volume and drawing air in.</div>
+      <div class="revision-box">📖 Revise: the mechanism of breathing — diaphragm and intercostal muscles</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-017</div><div class="q-body">
+      <span class="diff-tag d-s">Standard</span>
+      <div class="q-text">Which gas moves from the blood into the alveoli to be breathed out?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Oxygen</div>
+        <div class="opt-item"><span class="opt-letter">B</span>Nitrogen</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">C</span>Carbon dioxide</div>
+        <div class="opt-item"><span class="opt-letter">D</span>Water vapour</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: C — Carbon dioxide</div>CO₂ is a waste product of respiration. It diffuses from the blood (high concentration) into the alveoli (low concentration) and is breathed out.</div>
+      <div class="revision-box">📖 Revise: gas exchange at the alveoli — what moves in and out</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-018</div><div class="q-body">
+      <span class="diff-tag d-s">Standard</span>
+      <div class="q-text">Which feature of alveoli makes them well adapted for gas exchange?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Thick walls</div>
+        <div class="opt-item"><span class="opt-letter">B</span>Large volume</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">C</span>Large surface area and moist lining</div>
+        <div class="opt-item"><span class="opt-letter">D</span>Surrounded by cartilage</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: C</div>Alveoli have a very large total surface area, thin walls (one cell thick), a moist lining, and a rich blood supply — all adaptations for efficient gas exchange.</div>
+      <div class="revision-box">📖 Revise: adaptations of alveoli for efficient gas exchange</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-019</div><div class="q-body">
+      <span class="diff-tag d-s">Standard</span>
+      <div class="q-text">In plants, which structures allow gas exchange through the leaf?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Chloroplasts</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">B</span>Stomata</div>
+        <div class="opt-item"><span class="opt-letter">C</span>Xylem</div>
+        <div class="opt-item"><span class="opt-letter">D</span>Root hairs</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: B — Stomata</div>Stomata are tiny pores mainly on the underside of leaves. They open and close to allow CO₂ in for photosynthesis and O₂ out.</div>
+      <div class="revision-box">📖 Revise: stomata and gas exchange in plants</div>
+    </div></div></div>
+  </div>
+
+  <!-- REPRODUCTION -->
+  <div class="topic-section" data-topic="repro">
+    <div class="topic-header">
+      <div class="topic-icon">🌸</div>
+      <div><div class="topic-title">Reproduction</div><div class="topic-count">4 questions · BIO-Y7-REPRO</div></div>
+    </div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-020</div><div class="q-body">
+      <span class="diff-tag d-f">Foundation</span>
+      <div class="q-text">What is fertilisation?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>The release of an egg from the ovary</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">B</span>The fusion of a sperm and egg cell</div>
+        <div class="opt-item"><span class="opt-letter">C</span>The development of an embryo</div>
+        <div class="opt-item"><span class="opt-letter">D</span>The process of giving birth</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: B</div>Fertilisation is when a sperm fuses with an egg to form a zygote, which contains genetic material from both parents.</div>
+      <div class="revision-box">📖 Revise: fertilisation and early stages of human reproduction</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-021</div><div class="q-body">
+      <span class="diff-tag d-s">Standard</span>
+      <div class="q-text">What is the function of the placenta?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Produces eggs</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">B</span>Allows exchange of substances between mother and foetus</div>
+        <div class="opt-item"><span class="opt-letter">C</span>Produces amniotic fluid</div>
+        <div class="opt-item"><span class="opt-letter">D</span>Is where fertilisation occurs</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: B</div>The placenta allows oxygen and nutrients to pass from the mother's blood to the foetus, and CO₂ and waste to pass back.</div>
+      <div class="revision-box">📖 Revise: the role of the placenta in pregnancy</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-022</div><div class="q-body">
+      <span class="diff-tag d-s">Standard</span>
+      <div class="q-text">In a flower, which structure produces pollen?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Stigma</div>
+        <div class="opt-item"><span class="opt-letter">B</span>Ovary</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">C</span>Anther</div>
+        <div class="opt-item"><span class="opt-letter">D</span>Petal</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: C — Anther</div>The anther is the male part of the flower that produces pollen. The stigma is the sticky surface where pollen lands.</div>
+      <div class="revision-box">📖 Revise: flower structure — anther, stigma, ovary, petal</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-023</div><div class="q-body">
+      <span class="diff-tag d-s">Standard</span>
+      <div class="q-text">Which type of pollination relies on insects to transfer pollen?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Wind pollination</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">B</span>Insect pollination</div>
+        <div class="opt-item"><span class="opt-letter">C</span>Self-pollination</div>
+        <div class="opt-item"><span class="opt-letter">D</span>Water pollination</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: B — Insect pollination</div>Insect-pollinated flowers have colourful petals, scent and nectar to attract insects which carry pollen between flowers.</div>
+      <div class="revision-box">📖 Revise: insect vs wind pollination and their adaptations</div>
+    </div></div></div>
+  </div>
+
+  <!-- PHOTOSYNTHESIS -->
+  <div class="topic-section" data-topic="photo">
+    <div class="topic-header">
+      <div class="topic-icon">☀️</div>
+      <div><div class="topic-title">Photosynthesis</div><div class="topic-count">4 questions · BIO-Y7-PHOTO</div></div>
+    </div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-024</div><div class="q-body">
+      <span class="diff-tag d-f">Foundation</span>
+      <div class="q-text">What is the word equation for photosynthesis?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Glucose + oxygen → carbon dioxide + water</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">B</span>Carbon dioxide + water → glucose + oxygen</div>
+        <div class="opt-item"><span class="opt-letter">C</span>Oxygen + water → glucose + carbon dioxide</div>
+        <div class="opt-item"><span class="opt-letter">D</span>Glucose + carbon dioxide → water + oxygen</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: B</div>Photosynthesis: carbon dioxide + water → glucose + oxygen. Plants use light energy to drive this process inside chloroplasts.</div>
+      <div class="revision-box">📖 Revise: the word equation for photosynthesis — reactants and products</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-025</div><div class="q-body">
+      <span class="diff-tag d-f">Foundation</span>
+      <div class="q-text">Where in the plant cell does photosynthesis take place?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Mitochondria</div>
+        <div class="opt-item"><span class="opt-letter">B</span>Nucleus</div>
+        <div class="opt-item"><span class="opt-letter">C</span>Vacuole</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">D</span>Chloroplast</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: D — Chloroplast</div>Chloroplasts contain chlorophyll, the green pigment that absorbs light energy used to drive photosynthesis.</div>
+      <div class="revision-box">📖 Revise: chloroplasts and their role in photosynthesis</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-026</div><div class="q-body">
+      <span class="diff-tag d-s">Standard</span>
+      <div class="q-text">A plant kept in a dark cupboard for several days would most likely:</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Grow faster</div>
+        <div class="opt-item"><span class="opt-letter">B</span>Produce more oxygen</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">C</span>Lose its green colour and weaken</div>
+        <div class="opt-item"><span class="opt-letter">D</span>Increase in glucose levels</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: C</div>Without light the plant cannot photosynthesise. Chlorophyll breaks down, leaves turn yellow, and the plant weakens from lack of glucose.</div>
+      <div class="revision-box">📖 Revise: light as a requirement for photosynthesis</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-027</div><div class="q-body">
+      <span class="diff-tag d-s">Standard</span>
+      <div class="q-text">Which of the following is a raw material (reactant) for photosynthesis?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Glucose</div>
+        <div class="opt-item"><span class="opt-letter">B</span>Oxygen</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">C</span>Carbon dioxide</div>
+        <div class="opt-item"><span class="opt-letter">D</span>Starch</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: C — Carbon dioxide</div>The raw materials (reactants) for photosynthesis are carbon dioxide and water. Glucose and oxygen are the products.</div>
+      <div class="revision-box">📖 Revise: distinguishing reactants from products in photosynthesis</div>
+    </div></div></div>
+  </div>
+
+  <!-- CELLULAR RESPIRATION -->
+  <div class="topic-section" data-topic="resp">
+    <div class="topic-header">
+      <div class="topic-icon">⚡</div>
+      <div><div class="topic-title">Cellular respiration</div><div class="topic-count">4 questions · BIO-Y7-RESP</div></div>
+    </div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-028</div><div class="q-body">
+      <span class="diff-tag d-f">Foundation</span>
+      <div class="q-text">What is the word equation for aerobic respiration?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Glucose + carbon dioxide → oxygen + water</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">B</span>Glucose + oxygen → carbon dioxide + water + energy</div>
+        <div class="opt-item"><span class="opt-letter">C</span>Glucose → lactic acid + energy</div>
+        <div class="opt-item"><span class="opt-letter">D</span>Carbon dioxide + water → glucose + oxygen</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: B</div>Aerobic respiration: glucose + oxygen → carbon dioxide + water + energy. This releases energy for all life processes.</div>
+      <div class="revision-box">📖 Revise: the word equation for aerobic respiration</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-029</div><div class="q-body">
+      <span class="diff-tag d-s">Standard</span>
+      <div class="q-text">Anaerobic respiration in human muscle cells produces:</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Carbon dioxide and water</div>
+        <div class="opt-item"><span class="opt-letter">B</span>Ethanol and carbon dioxide</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">C</span>Lactic acid</div>
+        <div class="opt-item"><span class="opt-letter">D</span>Glucose and oxygen</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: C — Lactic acid</div>During vigorous exercise when oxygen is limited, muscles respire anaerobically producing lactic acid. This causes the burning sensation felt in muscles.</div>
+      <div class="revision-box">📖 Revise: anaerobic respiration in muscles and the role of lactic acid</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-030</div><div class="q-body">
+      <span class="diff-tag d-s">Standard</span>
+      <div class="q-text">Where does aerobic respiration take place in the cell?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Nucleus</div>
+        <div class="opt-item"><span class="opt-letter">B</span>Chloroplast</div>
+        <div class="opt-item"><span class="opt-letter">C</span>Ribosome</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">D</span>Mitochondria</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: D — Mitochondria</div>Aerobic respiration occurs in the mitochondria. Active cells like muscle cells have many mitochondria to meet their energy demands.</div>
+      <div class="revision-box">📖 Revise: mitochondria as the site of aerobic respiration</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-031</div><div class="q-body">
+      <span class="diff-tag d-x">Stretch</span>
+      <div class="q-text">How does anaerobic respiration in yeast differ from that in humans?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Yeast produces lactic acid; humans produce ethanol</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">B</span>Yeast produces ethanol and CO₂; humans produce lactic acid</div>
+        <div class="opt-item"><span class="opt-letter">C</span>Both produce ethanol</div>
+        <div class="opt-item"><span class="opt-letter">D</span>Both produce lactic acid</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: B</div>Yeast ferments to produce ethanol and CO₂ — this is used in baking and brewing. Humans produce lactic acid during anaerobic respiration.</div>
+      <div class="revision-box">📖 Revise: fermentation in yeast vs anaerobic respiration in humans</div>
+    </div></div></div>
+  </div>
+
+  <!-- ECOSYSTEMS -->
+  <div class="topic-section" data-topic="eco">
+    <div class="topic-header">
+      <div class="topic-icon">🌿</div>
+      <div><div class="topic-title">Ecosystems</div><div class="topic-count">5 questions · BIO-Y7-ECO</div></div>
+    </div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-032</div><div class="q-body">
+      <span class="diff-tag d-f">Foundation</span>
+      <div class="q-text">In a food web, what does an arrow represent?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Where the organism lives</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">B</span>The flow of energy from prey to predator</div>
+        <div class="opt-item"><span class="opt-letter">C</span>Competition between species</div>
+        <div class="opt-item"><span class="opt-letter">D</span>The size of the population</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: B</div>Arrows show the flow of energy from the organism being eaten to the organism eating it — they point in the direction energy travels.</div>
+      <div class="revision-box">📖 Revise: reading and interpreting food webs — what arrows mean</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-033</div><div class="q-body">
+      <span class="diff-tag d-s">Standard</span>
+      <div class="q-text">If the rabbit population suddenly decreased, what would most likely happen to the fox population?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Increase</div>
+        <div class="opt-item"><span class="opt-letter">B</span>Stay the same</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">C</span>Decrease</div>
+        <div class="opt-item"><span class="opt-letter">D</span>Not be affected</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: C — Decrease</div>Foxes depend on rabbits as a food source. If rabbits decline, foxes have less food and their population falls too — this shows predator-prey interdependence.</div>
+      <div class="revision-box">📖 Revise: predator-prey relationships and interdependence in ecosystems</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-034</div><div class="q-body">
+      <span class="diff-tag d-s">Standard</span>
+      <div class="q-text">Which term describes all populations of different species living in the same area?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Habitat</div>
+        <div class="opt-item"><span class="opt-letter">B</span>Ecosystem</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">C</span>Community</div>
+        <div class="opt-item"><span class="opt-letter">D</span>Population</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: C — Community</div>A community is all populations of different species in the same area. An ecosystem includes the community plus the non-living (abiotic) environment.</div>
+      <div class="revision-box">📖 Revise: key ecology terms — population, community, ecosystem, habitat</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-035</div><div class="q-body">
+      <span class="diff-tag d-s">Standard</span>
+      <div class="q-text">Why is biodiversity important?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>It makes ecosystems look attractive</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">B</span>It ensures ecosystems are more stable and resilient to change</div>
+        <div class="opt-item"><span class="opt-letter">C</span>It increases the number of predators only</div>
+        <div class="opt-item"><span class="opt-letter">D</span>It reduces competition between species</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: B</div>High biodiversity makes ecosystems more stable. If one species is lost, others can fill its role. Low biodiversity makes ecosystems fragile and vulnerable.</div>
+      <div class="revision-box">📖 Revise: the importance of biodiversity and ecosystem stability</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-036</div><div class="q-body">
+      <span class="diff-tag d-f">Foundation</span>
+      <div class="q-text">Which of the following is an example of a producer in an ecosystem?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Fox</div>
+        <div class="opt-item"><span class="opt-letter">B</span>Rabbit</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">C</span>Grass</div>
+        <div class="opt-item"><span class="opt-letter">D</span>Hawk</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: C — Grass</div>Producers make their own food via photosynthesis. Grass is a producer. Foxes, rabbits and hawks are all consumers.</div>
+      <div class="revision-box">📖 Revise: producers and consumers in food chains</div>
+    </div></div></div>
+  </div>
+
+  <!-- GENETICS & EVOLUTION -->
+  <div class="topic-section" data-topic="gen">
+    <div class="topic-header">
+      <div class="topic-icon">🧬</div>
+      <div><div class="topic-title">Genetics & evolution</div><div class="topic-count">5 questions · BIO-Y7-GEN</div></div>
+    </div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-037</div><div class="q-body">
+      <span class="diff-tag d-f">Foundation</span>
+      <div class="q-text">What is DNA?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>A type of protein</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">B</span>The molecule that carries genetic information</div>
+        <div class="opt-item"><span class="opt-letter">C</span>A form of carbohydrate</div>
+        <div class="opt-item"><span class="opt-letter">D</span>An enzyme in the nucleus</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: B</div>DNA (deoxyribonucleic acid) carries genetic information and is found in the nucleus of cells, coiled into structures called chromosomes.</div>
+      <div class="revision-box">📖 Revise: the structure and function of DNA</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-038</div><div class="q-body">
+      <span class="diff-tag d-s">Standard</span>
+      <div class="q-text">What is a gene?</div>
+      <div class="opts-grid">
+        <div class="opt-item correct-opt"><span class="opt-letter">A</span>A section of DNA that codes for a specific protein or characteristic</div>
+        <div class="opt-item"><span class="opt-letter">B</span>The entire chromosome</div>
+        <div class="opt-item"><span class="opt-letter">C</span>A type of cell</div>
+        <div class="opt-item"><span class="opt-letter">D</span>The process of copying DNA</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: A</div>A gene is a section of DNA that codes for a specific protein, which in turn determines a characteristic such as eye colour.</div>
+      <div class="revision-box">📖 Revise: genes, chromosomes and DNA — the relationship between them</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-039</div><div class="q-body">
+      <span class="diff-tag d-s">Standard</span>
+      <div class="q-text">Which of the following is an example of continuous variation?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Blood group (A, B, AB, O)</div>
+        <div class="opt-item"><span class="opt-letter">B</span>Ability to roll your tongue</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">C</span>Height</div>
+        <div class="opt-item"><span class="opt-letter">D</span>Whether you have attached or free earlobes</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: C — Height</div>Continuous variation shows a range of values with no distinct categories — height can be any value across a spectrum. The others are discontinuous (distinct categories).</div>
+      <div class="revision-box">📖 Revise: continuous vs discontinuous variation with examples</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-040</div><div class="q-body">
+      <span class="diff-tag d-s">Standard</span>
+      <div class="q-text">Natural selection occurs because:</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>All individuals in a species are identical</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">B</span>Some individuals have variations that make them better adapted to survive and reproduce</div>
+        <div class="opt-item"><span class="opt-letter">C</span>The environment never changes</div>
+        <div class="opt-item"><span class="opt-letter">D</span>Organisms choose to evolve</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: B</div>Individuals with advantageous variations are more likely to survive, reproduce, and pass on those traits. Over generations this leads to evolution.</div>
+      <div class="revision-box">📖 Revise: the mechanism of natural selection — variation, selection, inheritance</div>
+    </div></div></div>
+
+    <div class="q-card"><div class="q-top"><div class="q-num">BIO-041</div><div class="q-body">
+      <span class="diff-tag d-x">Stretch</span>
+      <div class="q-text">What could cause a species to become extinct?</div>
+      <div class="opts-grid">
+        <div class="opt-item"><span class="opt-letter">A</span>Too much food availability</div>
+        <div class="opt-item correct-opt"><span class="opt-letter">B</span>Environmental change that reduces the species' ability to compete and reproduce</div>
+        <div class="opt-item"><span class="opt-letter">C</span>Increase in biodiversity</div>
+        <div class="opt-item"><span class="opt-letter">D</span>Stable environment</div>
+      </div>
+      <div class="answer-box"><div class="ans-label">✓ Answer: B</div>Extinction occurs when environmental change means individuals of a species can no longer compete successfully and reproduce — the population drops to zero.</div>
+      <div class="revision-box">📖 Revise: extinction, adaptation failure and the role of environmental change</div>
+    </div></div></div>
+  </div>
+
+</div><!-- end shell -->
+
+<script>
+let answersVisible = true;
+
+function toggleAnswers(btn) {
+  answersVisible = !answersVisible;
+  btn.textContent = answersVisible ? 'Hide answers' : 'Show answers';
+  document.querySelectorAll('.answer-box, .revision-box').forEach(el => {
+    el.classList.toggle('hidden', !answersVisible);
+  });
+  document.querySelectorAll('.opt-item.correct-opt').forEach(el => {
+    el.classList.toggle('hidden-ans', !answersVisible);
+  });
+}
+
+function filterTopic(topic, btn) {
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.topic-section').forEach(s => {
+    s.style.display = (topic === 'all' || s.dataset.topic === topic) ? 'block' : 'none';
+  });
+}
+</script>
+</body>
+</html>
